@@ -1,3 +1,5 @@
+
+
 class ListNode {
     constructor(key, val, next) {
         this.key = key;
@@ -69,3 +71,24 @@ class HashMap {
         }   
      }
 };
+
+
+
+let map = new HashMap();
+
+map.put(8319485277,"Satvik Shrivas");
+map.get(8319485277); // "Satvik Shrivas"
+
+map.get(831948577) //-1 (Not Found)
+
+map.remove(8319485277);
+
+map.get(831948577) //-1 (Not Found)
+
+// To check if values in same hashFunction are working correctly or not
+// Remove primeMultiplier from hashFunction() function for easy calculation of hashIndex(Manually)
+// take noOfUsers to 100 
+map.put(122,"Satvik Shrivas"); // hashIndex = 22
+map.put(222,"Sas"); // hashIndex = 22
+map.get(222) // "Sas"
+map.get(122) // "Satvik Shrivas"
