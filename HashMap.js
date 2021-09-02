@@ -16,12 +16,47 @@ class ListNode {
 class HashMap {
     /** Initialize your data structure here. */
     constructor() {
-        this.noOfUsers = 101; 
+        this.noOfUsers = 10; 
         this.primeMultiplier = 1009;
         this.userList = new Array(this.noOfUsers);
     }
-    hashFunction(key) {
-        return key * this.primeMultiplier % this.noOfUsers;
+    addMoreUsers(newSizeUsers){
+        let listSize = this.noOfUsers;
+        if(newSizeUsers <= listSize){
+            return ;
+        }
+        
+        let findPower = Math.ceil(newSizeUsers/listSize);
+        let findTwoPow = Math.log2(findPower);
+        let toAllocate = Math.pow(2,findTwoPow) * listSize - listSize;
+
+        // console.log(findPower, findTwoPow, toAllocate);
+
+        this.userList=this.userList.concat(new Array(toAllocate));
+        
+        // console.log(this.userList);
+
+        let N = this.noOfUsers;
+        this.noOfUsers = this.userList.length;
+
+        //Rehashing previous values for equal distribution
+        for(let i = 0;i < N;i++){
+            if(this.userList[i] === undefined) {
+                continue;
+             }
+
+            let node = this.userList[i];
+            for (; node ; node = node.next){
+                if (node.key >= N){
+                    this.remove(node.key, N);
+                    this.put(node.key, node.val);
+                } 
+            }
+        }
+
+    }
+    hashFunction(key, size=this.noOfUsers) {
+        return key % size;
     }
 
     /**
@@ -43,8 +78,11 @@ class HashMap {
      */
     get(key) {
         let hashIndex = this.hashFunction(key);
+        if(this.userList[hashIndex] === undefined) {
+            return -1;
+        }
         let node = this.userList[hashIndex];
-        for (; node; node = node.next){
+        for (; node ; node = node.next){
             if (node.key === key){
                 return node.val;
             } 
@@ -58,17 +96,18 @@ class HashMap {
      * @param {number} key
      * @return {void}
      */
-    remove(key) {
-        let hashIndex = this.hashFunction(key);
-        let node = this.userList[hashIndex];
-        if (!node){
-            return;
+    remove(key, size=this.noOfUsers) {
+        let hashIndex = this.hashFunction(key,size);
+        if(this.userList[hashIndex] === undefined) {
+            return ;
         }
+        let node = this.userList[hashIndex];
+        
         if (node.key === key) {
             this.userList[hashIndex] = node.next;
         }
         else{
-            for (; node.next; node = node.next){
+            for (; node.next ; node = node.next){
                 if (node.next.key === key) {
                     node.next = node.next.next;
                     return;
@@ -101,3 +140,31 @@ map.get(222) // "Sas"
 map.get(122) // "Satvik Shrivas"
 map.get(322) // "Hello world"
 map.get(322) // "Hello world"
+
+
+//Testing addMoreUsers
+
+let map = new HashMap();
+map.put(122,"Berlin");
+
+map.addMoreUsers(33); //(40) [empty × 2, ListNode, empty × 37]
+
+map.put(82,"James") 
+
+map.userList
+/**
+ * (40) [empty × 2, ListNode, empty × 37]
+2: ListNode
+key: 82
+next: ListNode {
+    key: 122,
+    val: "Berlin",
+    next: undefined
+}
+val: "James"
+[[Prototype]]: Object
+length: 40
+[[Prototype]]: Array(0)
+ */
+
+
