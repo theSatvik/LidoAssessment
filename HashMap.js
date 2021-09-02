@@ -15,9 +15,9 @@ class ListNode {
 }
 class HashMap {
     /** Initialize your data structure here. */
-    constructor() {
-        this.noOfUsers = 10; 
-        this.primeMultiplier = 1009;
+    constructor(noOfUsers = 101, primeMultiplier = 1009) {
+        this.noOfUsers = noOfUsers; 
+        this.primeMultiplier = primeMultiplier;
         this.userList = new Array(this.noOfUsers);
     }
     addMoreUsers(newSizeUsers){
@@ -56,6 +56,7 @@ class HashMap {
 
     }
     hashFunction(key, size=this.noOfUsers) {
+        // return key * this.primeMultiplier % size; Prime Multiplier is used to reduce the number of collisions.
         return key % size;
     }
 
@@ -119,7 +120,7 @@ class HashMap {
 
 
 
-let map = new HashMap();
+let map = new HashMap(10,101);
 
 map.put(8319485277,"Satvik Shrivas");
 map.get(8319485277); // "Satvik Shrivas"
