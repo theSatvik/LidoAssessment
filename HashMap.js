@@ -28,13 +28,14 @@ class HashMap {
         
         let findPower = Math.ceil(newSizeUsers/listSize);
         let findTwoPow = Math.log2(findPower);
+        findTwoPow = Math.ceil(findTwoPow);
         let toAllocate = Math.pow(2,findTwoPow) * listSize - listSize;
 
-        // console.log(findPower, findTwoPow, toAllocate);
+        console.log(findPower, findTwoPow, toAllocate);
 
         this.userList=this.userList.concat(new Array(toAllocate));
         
-        // console.log(this.userList);
+        console.log(this.userList);
 
         let N = this.noOfUsers;
         this.noOfUsers = this.userList.length;
@@ -120,7 +121,7 @@ class HashMap {
 
 
 
-let map = new HashMap(10,101);
+let map = new HashMap(10);
 
 map.put(8319485277,"Satvik Shrivas");
 map.get(8319485277); // "Satvik Shrivas"
@@ -145,6 +146,40 @@ map.get(322) // "Hello world"
 
 //Testing addMoreUsers
 
+
+//Test 1
+let map = new HashMap(10);
+
+
+map.put(82,"James")
+map.put(162,"Berlin")
+
+map.get(82)     //"James"
+map.get(162)    //"Berlin"
+
+map.addMoreUsers(100);
+/** 
+ *  Old_Size = 10
+ *  PowOfTwo (2 ^ i) * Old_Size = New_Size
+ *  PowOfTwo (2 ^ i) = New_Size / Old_Size
+ *  
+ *  i = Log(New_Size/Old_Size) / Log(2); 
+ *  
+ *  i.e
+ *   i = Log(100/10)/Log(2)
+ *   i = Log(10)/Log(2) = 3.322 ~ 4 (Take ceil to allocate)
+ *   
+ *   
+ *  Now, 
+ * New_Size =(2 ^ i) * Old_Size;
+ *   
+ * New_Size = 16*(10) = 160 
+ * Already allocated = 10 
+ *  
+ *  To Allocate = 160 - 10 = 150
+ */
+
+//Test 2
 let map = new HashMap();
 map.put(122,"Berlin");
 
@@ -167,5 +202,4 @@ val: "James"
 length: 40
 [[Prototype]]: Array(0)
  */
-
 
